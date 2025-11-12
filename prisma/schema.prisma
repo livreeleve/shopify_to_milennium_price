@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id String @id @default(uuid())
+
+  title            String
+  legacyResourceId String     @unique @map("legacy_resource_id")
+  variantsId       String?    @map("variants_id")
+  variants         Variants[]
+
+  @@map("product")
+}
+
+model Variants {
+  id String @id @default(uuid())
+
+  legacyResourceId String   @unique @map("legacy_resource_id")
+  title            String
+  displayName      String   @map("display_name")
+  price            String
+  compareAtPrice   String   @map("compare_at_price")
+  barcode          String?
+  sku              String
+  createdAt        DateTime @map("created_at")
+  updatedAt        DateTime @map("update_at")
+  product          Product  @relation(fields: [productId], references: [legacyResourceId], onDelete: Cascade)
+  productId        String   @map("product_id")
+
+  @@index([productId])
+  @@map("variants")
+}
