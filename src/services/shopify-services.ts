@@ -7,7 +7,28 @@ export interface ParamsShopifyGetProduct {
   query?: string
 }
 
+export interface GetProductResponse {
+  products: {
+    pageInfo: {
+      startCursor: string
+      endCursor: string
+      hasNextPage: boolean
+      hasPreviousPage: boolean
+    }
+    edges: {
+      node: {
+        legacyResourceId: string
+        title: string
+        tags: string[]
+        status: string
+      }
+    }[]
+  }
+}
+
 export interface ShopifyServices {
-  getProducts(params: ParamsShopifyGetProduct): Promise<any | null>
+  getProducts(
+    params: ParamsShopifyGetProduct,
+  ): Promise<GetProductResponse | null>
   getVariants(params: any): Promise<any | null>
 }

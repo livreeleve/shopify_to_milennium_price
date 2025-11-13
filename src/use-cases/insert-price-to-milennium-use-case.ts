@@ -18,18 +18,16 @@ export class InsertPriceMilenniumUseCase {
   async execute(params: InserPriceMilenniumUseCaseRequest) {
     const productsData = await this.shopifyService.getProducts(params)
 
-    const productsFiltered = productsData.products.edges.map(
+    const productsFiltered = productsData?.products?.edges?.map(
       (item: any) => item.node,
     )
 
-    const products =
-      await this.prismaService.createManyProduct(productsFiltered)
-
-    console.log(JSON.stringify(products, null, 2))
+    // const products =
+    //   await this.prismaService.createManyProduct(productsFiltered)
 
     const pageInfo = productsData?.products?.pageInfo
 
-    const lastPageInfo = await this.prismaService.upsertPageInfo(pageInfo)
+    const lastPageInfo = await this.prismaService.upsertPageInfo(pageInfo!)
 
     console.log(JSON.stringify(lastPageInfo, null, 2))
 
