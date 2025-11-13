@@ -391,7 +391,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Product: 'Product',
-  Variants: 'Variants'
+  Variants: 'Variants',
+  PageInfo: 'PageInfo'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -407,7 +408,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "product" | "variants"
+    modelProps: "product" | "variants" | "pageInfo"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -559,6 +560,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    PageInfo: {
+      payload: Prisma.$PageInfoPayload<ExtArgs>
+      fields: Prisma.PageInfoFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PageInfoFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageInfoPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PageInfoFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageInfoPayload>
+        }
+        findFirst: {
+          args: Prisma.PageInfoFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageInfoPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PageInfoFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageInfoPayload>
+        }
+        findMany: {
+          args: Prisma.PageInfoFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageInfoPayload>[]
+        }
+        create: {
+          args: Prisma.PageInfoCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageInfoPayload>
+        }
+        createMany: {
+          args: Prisma.PageInfoCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PageInfoCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageInfoPayload>[]
+        }
+        delete: {
+          args: Prisma.PageInfoDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageInfoPayload>
+        }
+        update: {
+          args: Prisma.PageInfoUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageInfoPayload>
+        }
+        deleteMany: {
+          args: Prisma.PageInfoDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PageInfoUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PageInfoUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageInfoPayload>[]
+        }
+        upsert: {
+          args: Prisma.PageInfoUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageInfoPayload>
+        }
+        aggregate: {
+          args: Prisma.PageInfoAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePageInfo>
+        }
+        groupBy: {
+          args: Prisma.PageInfoGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PageInfoGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PageInfoCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PageInfoCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -602,6 +677,8 @@ export const ProductScalarFieldEnum = {
   id: 'id',
   title: 'title',
   legacyResourceId: 'legacyResourceId',
+  tags: 'tags',
+  status: 'status',
   variantsId: 'variantsId'
 } as const
 
@@ -618,10 +695,25 @@ export const VariantsScalarFieldEnum = {
   barcode: 'barcode',
   sku: 'sku',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  productId: 'productId'
 } as const
 
 export type VariantsScalarFieldEnum = (typeof VariantsScalarFieldEnum)[keyof typeof VariantsScalarFieldEnum]
+
+
+export const PageInfoScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  startCursor: 'startCursor',
+  endCursor: 'endCursor',
+  hasNextPage: 'hasNextPage',
+  hasPreviousPage: 'hasPreviousPage',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PageInfoScalarFieldEnum = (typeof PageInfoScalarFieldEnum)[keyof typeof PageInfoScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -679,6 +771,13 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -784,6 +883,7 @@ export interface PrismaClientOptions {
 export type GlobalOmitConfig = {
   product?: Prisma.ProductOmit
   variants?: Prisma.VariantsOmit
+  pageInfo?: Prisma.PageInfoOmit
 }
 
 /* Types for Logging */

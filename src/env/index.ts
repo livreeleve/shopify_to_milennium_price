@@ -7,6 +7,9 @@ const envSchema = z.object({
   MILENNIUM_BASE_URL: z.string(),
   MILENNIUM_USER_NAME: z.string(),
   MILENNIUM_PASSWORD: z.string(),
+  SHOPIFY_BASE_URL: z.string(),
+  SHOPIFY_TOKEN: z.string(),
+  SHOPIFY_VERSION_API: z.string(),
 })
 
 const _env = envSchema.safeParse(process.env)

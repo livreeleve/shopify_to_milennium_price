@@ -18,9 +18,12 @@ model Product {
   id String @id @default(uuid())
 
   title            String
-  legacyResourceId String     @unique @map("legacy_resource_id")
-  variantsId       String?    @map("variants_id")
-  variants         Variants[]
+  legacyResourceId String   @unique @map("legacy_resource_id")
+  tags             String[]
+  status           String?
+  variantsId       String?  @map("variants_id")
+
+  variants Variants[]
 
   @@map("product")
 }
@@ -37,9 +40,26 @@ model Variants {
   sku              String
   createdAt        DateTime @map("created_at")
   updatedAt        DateTime @map("update_at")
-  product          Product  @relation(fields: [productId], references: [legacyResourceId], onDelete: Cascade)
-  productId        String   @map("product_id")
+
+  product   Product @relation(fields: [productId], references: [legacyResourceId], onDelete: Cascade)
+  productId String  @map("product_id")
 
   @@index([productId])
   @@map("variants")
+}
+
+model PageInfo {
+  id String @id @default(uuid())
+
+  key String @unique @default("shopifyPageInfo")
+
+  startCursor     String  @map("start_cursor")
+  endCursor       String  @map("end_cursor")
+  hasNextPage     Boolean @map("has_next_page")
+  hasPreviousPage Boolean @map("has_previous_page")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("page_info")
 }

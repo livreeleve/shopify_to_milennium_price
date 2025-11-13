@@ -10,4 +10,5 @@
  */
 export type * from './models/Product.js'
 export type * from './models/Variants.js'
+export type * from './models/PageInfo.js'
 export type * from './commonInputTypes.js'

@@ -10,6 +10,7 @@ import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUI from '@fastify/swagger-ui'
 import { treeifyError, ZodError } from 'zod'
 import { env } from './env'
+import { routes } from './http'
 
 export const app = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -17,6 +18,8 @@ app.register(fastifyCors)
 
 app.setSerializerCompiler(serializerCompiler)
 app.setValidatorCompiler(validatorCompiler)
+
+app.register(routes)
 
 app.register(fastifySwagger, {
   openapi: {

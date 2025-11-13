@@ -54,3 +54,8 @@ export type Product = Prisma.ProductModel
  * 
  */
 export type Variants = Prisma.VariantsModel
+/**
+ * Model PageInfo
+ * 
+ */
+export type PageInfo = Prisma.PageInfoModel

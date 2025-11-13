@@ -50,7 +50,8 @@ export const AnyNull = runtime.objectEnumValues.instances.AnyNull
 
 export const ModelName = {
   Product: 'Product',
-  Variants: 'Variants'
+  Variants: 'Variants',
+  PageInfo: 'PageInfo'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -73,6 +74,8 @@ export const ProductScalarFieldEnum = {
   id: 'id',
   title: 'title',
   legacyResourceId: 'legacyResourceId',
+  tags: 'tags',
+  status: 'status',
   variantsId: 'variantsId'
 } as const
 
@@ -89,10 +92,25 @@ export const VariantsScalarFieldEnum = {
   barcode: 'barcode',
   sku: 'sku',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  productId: 'productId'
 } as const
 
 export type VariantsScalarFieldEnum = (typeof VariantsScalarFieldEnum)[keyof typeof VariantsScalarFieldEnum]
+
+
+export const PageInfoScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  startCursor: 'startCursor',
+  endCursor: 'endCursor',
+  hasNextPage: 'hasNextPage',
+  hasPreviousPage: 'hasPreviousPage',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PageInfoScalarFieldEnum = (typeof PageInfoScalarFieldEnum)[keyof typeof PageInfoScalarFieldEnum]
 
 
 export const SortOrder = {
