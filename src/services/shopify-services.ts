@@ -9,4 +9,5 @@ export interface ParamsShopifyGetProduct {
 
 export interface ShopifyServices {
   getProducts(params: ParamsShopifyGetProduct): Promise<any | null>
+  getVariants(params: any): Promise<any | null>
 }

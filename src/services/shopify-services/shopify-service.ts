@@ -18,4 +18,12 @@ export class ShopifyService implements ShopifyServices {
       throw err
     }
   }
+
+  async getVariants(params: any): Promise<any | null> {
+    try {
+      console.log(params, 'aqui os paramentros')
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }

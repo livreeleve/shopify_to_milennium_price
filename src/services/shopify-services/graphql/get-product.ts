@@ -14,6 +14,7 @@ export const GET_PRODUCTS = gql`
           legacyResourceId
           title
           tags
+          status
         }
       }
     }

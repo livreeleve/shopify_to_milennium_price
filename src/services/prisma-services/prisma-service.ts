@@ -1,4 +1,4 @@
-import { PageInfo, Product, Variants } from '@/generated/prisma/client'
+import { PageInfo, Variants } from '@/generated/prisma/client'
 import {
   PageInfoCreateInput,
   ProductCreateInput,
@@ -6,11 +6,13 @@ import {
 } from '@/generated/prisma/models'
 import { PrismaServices } from '../prisma-services'
 import { prisma } from '@/lib/prisma'
+import { BatchPayload } from '@/generated/prisma/internal/prismaNamespace'
 
 export class PrismaService implements PrismaServices {
-  async createProduct(data: ProductCreateInput): Promise<Product> {
-    const product = await prisma.product.create({
+  async createManyProduct(data: ProductCreateInput[]): Promise<BatchPayload> {
+    const product = await prisma.product.createMany({
       data,
+      skipDuplicates: true,
     })
 
     return product

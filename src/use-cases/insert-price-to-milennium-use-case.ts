@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { PrismaServices } from '@/services/prisma-services'
 import { ShopifyServices } from '@/services/shopify-services'
 
@@ -16,6 +17,15 @@ export class InsertPriceMilenniumUseCase {
 
   async execute(params: InserPriceMilenniumUseCaseRequest) {
     const productsData = await this.shopifyService.getProducts(params)
+
+    const productsFiltered = productsData.products.edges.map(
+      (item: any) => item.node,
+    )
+
+    const products =
+      await this.prismaService.createManyProduct(productsFiltered)
+
+    console.log(JSON.stringify(products, null, 2))
 
     const pageInfo = productsData?.products?.pageInfo
 
