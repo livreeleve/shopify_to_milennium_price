@@ -17,13 +17,38 @@ export class InsertPriceMilenniumUseCase {
 
   async execute(params: InserPriceMilenniumUseCaseRequest) {
     const productsData = await this.shopifyService.getProducts(params)
+    const products = productsData?.products.edges.map((product) => product.node)
 
-    const productsFiltered = productsData?.products?.edges?.map(
-      (item: any) => item.node,
-    )
+    const productsFiltered =
+      productsData?.products?.edges?.map((item: any) => item.node) ?? []
 
-    // const products =
-    //   await this.prismaService.createManyProduct(productsFiltered)
+    await this.prismaService.createManyProduct(productsFiltered)
+
+    products?.map(async (product) => {
+      const params = {
+        first: 50,
+        query: `product_id:${product.legacyResourceId}`,
+      }
+      const getVariants = await this.shopifyService.getVariants(params)
+
+      const variants = getVariants?.productVariants.edges.flatMap(
+        ({ node: variantNode }) => ({
+          legacyResourceId: variantNode.legacyResourceId,
+          title: variantNode.title,
+          displayName: variantNode.displayName,
+          price: variantNode.price,
+          compareAtPrice: variantNode.compareAtPrice,
+          barcode: variantNode.barcode ?? null,
+          sku: variantNode.sku,
+          createdAt: variantNode.createdAt,
+          updatedAt: variantNode.updatedAt,
+          productId: product.legacyResourceId,
+        }),
+      )
+
+      if (variants && variants.length > 0)
+        return await this.prismaService.createManyVariant(variants)
+    })
 
     const pageInfo = productsData?.products?.pageInfo
 
@@ -31,9 +56,6 @@ export class InsertPriceMilenniumUseCase {
 
     console.log(JSON.stringify(lastPageInfo, null, 2))
 
-    console.log(
-      JSON.stringify(productsData, null, 2),
-      'o resultado do response',
-    )
+    console.log(JSON.stringify(products, null, 2), 'o resultado do response')
   }
 }

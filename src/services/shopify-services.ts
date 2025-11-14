@@ -7,6 +7,11 @@ export interface ParamsShopifyGetProduct {
   query?: string
 }
 
+export interface ParamsShopifyGetProductVariants {
+  first: number
+  query?: string
+}
+
 export interface GetProductResponse {
   products: {
     pageInfo: {
@@ -26,9 +31,29 @@ export interface GetProductResponse {
   }
 }
 
+export interface GetProductVariantsResponse {
+  productVariants: {
+    edges: {
+      node: {
+        title: string
+        legacyResourceId: string
+        displayName: string
+        price: string
+        compareAtPrice: string
+        barcode: string
+        sku: string
+        createdAt: string
+        updatedAt: string
+      }
+    }[]
+  }
+}
+
 export interface ShopifyServices {
   getProducts(
     params: ParamsShopifyGetProduct,
   ): Promise<GetProductResponse | null>
-  getVariants(params: any): Promise<any | null>
+  getVariants(
+    params: ParamsShopifyGetProductVariants,
+  ): Promise<GetProductVariantsResponse | null>
 }

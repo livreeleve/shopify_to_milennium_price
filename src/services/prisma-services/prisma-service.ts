@@ -1,8 +1,8 @@
-import { PageInfo, Variants } from '@/generated/prisma/client'
+import { PageInfo } from '@/generated/prisma/client'
 import {
   PageInfoCreateInput,
   ProductCreateInput,
-  VariantsCreateInput,
+  VariantsCreateManyInput,
 } from '@/generated/prisma/models'
 import { PrismaServices } from '../prisma-services'
 import { prisma } from '@/lib/prisma'
@@ -34,11 +34,16 @@ export class PrismaService implements PrismaServices {
     return pageInfo
   }
 
-  async createVariant(data: VariantsCreateInput): Promise<Variants> {
-    const variants = await prisma.variants.create({
+  async createManyVariant(
+    data: VariantsCreateManyInput[],
+  ): Promise<BatchPayload> {
+    const variants = await prisma.variants.createMany({
       data,
+      skipDuplicates: true,
     })
 
     return variants
   }
+
+  async getPageInfo(): Promise<PageInfo | null> {}
 }
