@@ -2,26 +2,26 @@
 import { PrismaServices } from '@/services/prisma-services'
 import { ShopifyServices } from '@/services/shopify-services'
 
-interface InserPriceMilenniumUseCaseRequest {
+interface GetPriceShopifyAndSaveDatabaseUseCaseRequest {
   first: number
   after?: string
   before?: string
   query?: string
 }
 
-interface InsertPriceMilenniumUseCaseResponse {
+interface GetPriceShopifyAndSaveDatabaseUseCaseResponse {
   message: string
 }
 
-export class InsertPriceMilenniumUseCase {
+export class GetPriceShopifyAndSaveDatabaseUseCase {
   constructor(
     private shopifyService: ShopifyServices,
     private prismaService: PrismaServices,
   ) {}
 
   async execute(
-    params: InserPriceMilenniumUseCaseRequest,
-  ): Promise<InsertPriceMilenniumUseCaseResponse> {
+    params: GetPriceShopifyAndSaveDatabaseUseCaseRequest,
+  ): Promise<GetPriceShopifyAndSaveDatabaseUseCaseResponse> {
     const savedPageInfo = await this.prismaService.getPageInfo()
 
     let hasNextPage = true
@@ -61,10 +61,10 @@ export class InsertPriceMilenniumUseCase {
                   legacyResourceId: variantNode.legacyResourceId,
                   title: variantNode.title,
                   displayName: variantNode.displayName,
-                  price: variantNode.price,
+                  price: Number(variantNode.price),
                   compareAtPrice: variantNode.compareAtPrice
-                    ? variantNode.compareAtPrice
-                    : variantNode.price,
+                    ? Number(variantNode.compareAtPrice)
+                    : Number(variantNode.price),
                   barcode: variantNode.barcode ?? null,
                   sku: variantNode.sku ? variantNode.sku : '',
                   createdAt: variantNode.createdAt,

@@ -45,7 +45,7 @@ app.setErrorHandler((error, _, reply) => {
     })
   }
 
-  if (env.NODE_ENV !== 'production') {
+  if (env.NODE_DEV !== 'production') {
     console.error(error)
   } else {
     // TODO: Herer we should lot to an external tool like DataDog/NewRelic?Sentry

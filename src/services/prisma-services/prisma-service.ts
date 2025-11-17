@@ -1,10 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { PageInfo } from '@/generated/prisma/client'
 import {
   PageInfoCreateInput,
   ProductCreateInput,
+  ProductWhereInput,
   VariantsCreateManyInput,
 } from '@/generated/prisma/models'
-import { PrismaServices } from '../prisma-services'
+import {
+  FindProductsWithValidVariantsTypes,
+  PrismaServices,
+} from '../prisma-services'
 import { prisma } from '@/lib/prisma'
 import { BatchPayload } from '@/generated/prisma/internal/prismaNamespace'
 
@@ -53,5 +58,26 @@ export class PrismaService implements PrismaServices {
     })
 
     return pageInfo
+  }
+
+  async findProductsWithValidVariants(): Promise<FindProductsWithValidVariantsTypes | null> {
+    const where: ProductWhereInput = {
+      variants: {
+        some: {
+          sku: { not: '' },
+          price: { gt: 0 },
+        },
+      },
+    }
+
+    const [products, count] = await prisma.$transaction([
+      prisma.product.findMany({ where, include: { variants: true } }),
+      prisma.product.count({ where }),
+    ])
+
+    return {
+      products,
+      count,
+    }
   }
 }

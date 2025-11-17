@@ -20,8 +20,20 @@ export type VariantsModel = runtime.Types.Result.DefaultSelection<Prisma.$Varian
 
 export type AggregateVariants = {
   _count: VariantsCountAggregateOutputType | null
+  _avg: VariantsAvgAggregateOutputType | null
+  _sum: VariantsSumAggregateOutputType | null
   _min: VariantsMinAggregateOutputType | null
   _max: VariantsMaxAggregateOutputType | null
+}
+
+export type VariantsAvgAggregateOutputType = {
+  price: number | null
+  compareAtPrice: number | null
+}
+
+export type VariantsSumAggregateOutputType = {
+  price: number | null
+  compareAtPrice: number | null
 }
 
 export type VariantsMinAggregateOutputType = {
@@ -29,8 +41,8 @@ export type VariantsMinAggregateOutputType = {
   legacyResourceId: string | null
   title: string | null
   displayName: string | null
-  price: string | null
-  compareAtPrice: string | null
+  price: number | null
+  compareAtPrice: number | null
   barcode: string | null
   sku: string | null
   createdAt: Date | null
@@ -43,8 +55,8 @@ export type VariantsMaxAggregateOutputType = {
   legacyResourceId: string | null
   title: string | null
   displayName: string | null
-  price: string | null
-  compareAtPrice: string | null
+  price: number | null
+  compareAtPrice: number | null
   barcode: string | null
   sku: string | null
   createdAt: Date | null
@@ -67,6 +79,16 @@ export type VariantsCountAggregateOutputType = {
   _all: number
 }
 
+
+export type VariantsAvgAggregateInputType = {
+  price?: true
+  compareAtPrice?: true
+}
+
+export type VariantsSumAggregateInputType = {
+  price?: true
+  compareAtPrice?: true
+}
 
 export type VariantsMinAggregateInputType = {
   id?: true
@@ -149,6 +171,18 @@ export type VariantsAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inter
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: VariantsAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: VariantsSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: VariantsMinAggregateInputType
@@ -179,6 +213,8 @@ export type VariantsGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   _count?: VariantsCountAggregateInputType | true
+  _avg?: VariantsAvgAggregateInputType
+  _sum?: VariantsSumAggregateInputType
   _min?: VariantsMinAggregateInputType
   _max?: VariantsMaxAggregateInputType
 }
@@ -188,14 +224,16 @@ export type VariantsGroupByOutputType = {
   legacyResourceId: string
   title: string
   displayName: string
-  price: string
-  compareAtPrice: string
+  price: number
+  compareAtPrice: number
   barcode: string | null
   sku: string
   createdAt: Date
   updatedAt: Date
   productId: string
   _count: VariantsCountAggregateOutputType | null
+  _avg: VariantsAvgAggregateOutputType | null
+  _sum: VariantsSumAggregateOutputType | null
   _min: VariantsMinAggregateOutputType | null
   _max: VariantsMaxAggregateOutputType | null
 }
@@ -223,8 +261,8 @@ export type VariantsWhereInput = {
   legacyResourceId?: Prisma.StringFilter<"Variants"> | string
   title?: Prisma.StringFilter<"Variants"> | string
   displayName?: Prisma.StringFilter<"Variants"> | string
-  price?: Prisma.StringFilter<"Variants"> | string
-  compareAtPrice?: Prisma.StringFilter<"Variants"> | string
+  price?: Prisma.FloatFilter<"Variants"> | number
+  compareAtPrice?: Prisma.FloatFilter<"Variants"> | number
   barcode?: Prisma.StringNullableFilter<"Variants"> | string | null
   sku?: Prisma.StringFilter<"Variants"> | string
   createdAt?: Prisma.DateTimeFilter<"Variants"> | Date | string
@@ -256,8 +294,8 @@ export type VariantsWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.VariantsWhereInput | Prisma.VariantsWhereInput[]
   title?: Prisma.StringFilter<"Variants"> | string
   displayName?: Prisma.StringFilter<"Variants"> | string
-  price?: Prisma.StringFilter<"Variants"> | string
-  compareAtPrice?: Prisma.StringFilter<"Variants"> | string
+  price?: Prisma.FloatFilter<"Variants"> | number
+  compareAtPrice?: Prisma.FloatFilter<"Variants"> | number
   barcode?: Prisma.StringNullableFilter<"Variants"> | string | null
   sku?: Prisma.StringFilter<"Variants"> | string
   createdAt?: Prisma.DateTimeFilter<"Variants"> | Date | string
@@ -279,8 +317,10 @@ export type VariantsOrderByWithAggregationInput = {
   updatedAt?: Prisma.SortOrder
   productId?: Prisma.SortOrder
   _count?: Prisma.VariantsCountOrderByAggregateInput
+  _avg?: Prisma.VariantsAvgOrderByAggregateInput
   _max?: Prisma.VariantsMaxOrderByAggregateInput
   _min?: Prisma.VariantsMinOrderByAggregateInput
+  _sum?: Prisma.VariantsSumOrderByAggregateInput
 }
 
 export type VariantsScalarWhereWithAggregatesInput = {
@@ -291,8 +331,8 @@ export type VariantsScalarWhereWithAggregatesInput = {
   legacyResourceId?: Prisma.StringWithAggregatesFilter<"Variants"> | string
   title?: Prisma.StringWithAggregatesFilter<"Variants"> | string
   displayName?: Prisma.StringWithAggregatesFilter<"Variants"> | string
-  price?: Prisma.StringWithAggregatesFilter<"Variants"> | string
-  compareAtPrice?: Prisma.StringWithAggregatesFilter<"Variants"> | string
+  price?: Prisma.FloatWithAggregatesFilter<"Variants"> | number
+  compareAtPrice?: Prisma.FloatWithAggregatesFilter<"Variants"> | number
   barcode?: Prisma.StringNullableWithAggregatesFilter<"Variants"> | string | null
   sku?: Prisma.StringWithAggregatesFilter<"Variants"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Variants"> | Date | string
@@ -305,8 +345,8 @@ export type VariantsCreateInput = {
   legacyResourceId: string
   title: string
   displayName: string
-  price: string
-  compareAtPrice: string
+  price: number
+  compareAtPrice: number
   barcode?: string | null
   sku: string
   createdAt: Date | string
@@ -319,8 +359,8 @@ export type VariantsUncheckedCreateInput = {
   legacyResourceId: string
   title: string
   displayName: string
-  price: string
-  compareAtPrice: string
+  price: number
+  compareAtPrice: number
   barcode?: string | null
   sku: string
   createdAt: Date | string
@@ -333,8 +373,8 @@ export type VariantsUpdateInput = {
   legacyResourceId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.StringFieldUpdateOperationsInput | string
-  compareAtPrice?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  compareAtPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -347,8 +387,8 @@ export type VariantsUncheckedUpdateInput = {
   legacyResourceId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.StringFieldUpdateOperationsInput | string
-  compareAtPrice?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  compareAtPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -361,8 +401,8 @@ export type VariantsCreateManyInput = {
   legacyResourceId: string
   title: string
   displayName: string
-  price: string
-  compareAtPrice: string
+  price: number
+  compareAtPrice: number
   barcode?: string | null
   sku: string
   createdAt: Date | string
@@ -375,8 +415,8 @@ export type VariantsUpdateManyMutationInput = {
   legacyResourceId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.StringFieldUpdateOperationsInput | string
-  compareAtPrice?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  compareAtPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -388,8 +428,8 @@ export type VariantsUncheckedUpdateManyInput = {
   legacyResourceId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.StringFieldUpdateOperationsInput | string
-  compareAtPrice?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  compareAtPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -421,6 +461,11 @@ export type VariantsCountOrderByAggregateInput = {
   productId?: Prisma.SortOrder
 }
 
+export type VariantsAvgOrderByAggregateInput = {
+  price?: Prisma.SortOrder
+  compareAtPrice?: Prisma.SortOrder
+}
+
 export type VariantsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   legacyResourceId?: Prisma.SortOrder
@@ -447,6 +492,11 @@ export type VariantsMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   productId?: Prisma.SortOrder
+}
+
+export type VariantsSumOrderByAggregateInput = {
+  price?: Prisma.SortOrder
+  compareAtPrice?: Prisma.SortOrder
 }
 
 export type VariantsCreateNestedManyWithoutProductInput = {
@@ -491,6 +541,14 @@ export type VariantsUncheckedUpdateManyWithoutProductNestedInput = {
   deleteMany?: Prisma.VariantsScalarWhereInput | Prisma.VariantsScalarWhereInput[]
 }
 
+export type FloatFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
@@ -500,8 +558,8 @@ export type VariantsCreateWithoutProductInput = {
   legacyResourceId: string
   title: string
   displayName: string
-  price: string
-  compareAtPrice: string
+  price: number
+  compareAtPrice: number
   barcode?: string | null
   sku: string
   createdAt: Date | string
@@ -513,8 +571,8 @@ export type VariantsUncheckedCreateWithoutProductInput = {
   legacyResourceId: string
   title: string
   displayName: string
-  price: string
-  compareAtPrice: string
+  price: number
+  compareAtPrice: number
   barcode?: string | null
   sku: string
   createdAt: Date | string
@@ -555,8 +613,8 @@ export type VariantsScalarWhereInput = {
   legacyResourceId?: Prisma.StringFilter<"Variants"> | string
   title?: Prisma.StringFilter<"Variants"> | string
   displayName?: Prisma.StringFilter<"Variants"> | string
-  price?: Prisma.StringFilter<"Variants"> | string
-  compareAtPrice?: Prisma.StringFilter<"Variants"> | string
+  price?: Prisma.FloatFilter<"Variants"> | number
+  compareAtPrice?: Prisma.FloatFilter<"Variants"> | number
   barcode?: Prisma.StringNullableFilter<"Variants"> | string | null
   sku?: Prisma.StringFilter<"Variants"> | string
   createdAt?: Prisma.DateTimeFilter<"Variants"> | Date | string
@@ -569,8 +627,8 @@ export type VariantsCreateManyProductInput = {
   legacyResourceId: string
   title: string
   displayName: string
-  price: string
-  compareAtPrice: string
+  price: number
+  compareAtPrice: number
   barcode?: string | null
   sku: string
   createdAt: Date | string
@@ -582,8 +640,8 @@ export type VariantsUpdateWithoutProductInput = {
   legacyResourceId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.StringFieldUpdateOperationsInput | string
-  compareAtPrice?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  compareAtPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -595,8 +653,8 @@ export type VariantsUncheckedUpdateWithoutProductInput = {
   legacyResourceId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.StringFieldUpdateOperationsInput | string
-  compareAtPrice?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  compareAtPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -608,8 +666,8 @@ export type VariantsUncheckedUpdateManyWithoutProductInput = {
   legacyResourceId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.StringFieldUpdateOperationsInput | string
-  compareAtPrice?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  compareAtPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   barcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -698,8 +756,8 @@ export type $VariantsPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     legacyResourceId: string
     title: string
     displayName: string
-    price: string
-    compareAtPrice: string
+    price: number
+    compareAtPrice: number
     barcode: string | null
     sku: string
     createdAt: Date
@@ -1133,8 +1191,8 @@ export interface VariantsFieldRefs {
   readonly legacyResourceId: Prisma.FieldRef<"Variants", 'String'>
   readonly title: Prisma.FieldRef<"Variants", 'String'>
   readonly displayName: Prisma.FieldRef<"Variants", 'String'>
-  readonly price: Prisma.FieldRef<"Variants", 'String'>
-  readonly compareAtPrice: Prisma.FieldRef<"Variants", 'String'>
+  readonly price: Prisma.FieldRef<"Variants", 'Float'>
+  readonly compareAtPrice: Prisma.FieldRef<"Variants", 'Float'>
   readonly barcode: Prisma.FieldRef<"Variants", 'String'>
   readonly sku: Prisma.FieldRef<"Variants", 'String'>
   readonly createdAt: Prisma.FieldRef<"Variants", 'DateTime'>

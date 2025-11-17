@@ -34,8 +34,8 @@ model Variants {
   legacyResourceId String   @unique @map("legacy_resource_id")
   title            String
   displayName      String   @map("display_name")
-  price            String
-  compareAtPrice   String   @map("compare_at_price")
+  price            Float
+  compareAtPrice   Float    @map("compare_at_price")
   barcode          String?
   sku              String
   createdAt        DateTime @map("created_at")

@@ -1,10 +1,10 @@
-import { makeInsertPriceMilennium } from '@/use-cases/factories/insert-price-milennium/make-insert-price-milennium'
+import { makeGetPriceShopifyAndSaveDatabase } from '@/use-cases/factories/get-price-shopify-and-save-database/make-get-price-shopify-and-save-database'
 import { FastifyInstance } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import z from 'zod'
 
-export function insertPriceMilennium(app: FastifyInstance) {
-  app.withTypeProvider<ZodTypeProvider>().get(
+export function getPriceShopifyAndSaveDatabase(app: FastifyInstance) {
+  app.withTypeProvider<ZodTypeProvider>().post(
     '/v1/get/products',
     {
       schema: {
@@ -22,9 +22,10 @@ export function insertPriceMilennium(app: FastifyInstance) {
       try {
         const params = request.query
 
-        const insertPriceUseCase = makeInsertPriceMilennium()
+        const getPriceShopifyAndSaveUseCase =
+          makeGetPriceShopifyAndSaveDatabase()
 
-        const { message } = await insertPriceUseCase.execute(params)
+        const { message } = await getPriceShopifyAndSaveUseCase.execute(params)
 
         return reply.status(200).send({ message })
       } catch (error) {
