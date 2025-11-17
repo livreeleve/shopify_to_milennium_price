@@ -24,7 +24,9 @@ export function insertPriceMilennium(app: FastifyInstance) {
 
         const insertPriceUseCase = makeInsertPriceMilennium()
 
-        await insertPriceUseCase.execute(params)
+        const { message } = await insertPriceUseCase.execute(params)
+
+        return reply.status(200).send({ message })
       } catch (error) {
         if (error instanceof Error) {
           console.log(error, 'o error')

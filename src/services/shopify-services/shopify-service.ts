@@ -15,12 +15,10 @@ export class ShopifyService implements ShopifyServices {
     params: ParamsShopifyGetProduct,
   ): Promise<GetProductResponse | null> {
     try {
-      console.log(params, 'aqui os paramentros')
       const data = await shopifyApi.request(GET_PRODUCTS, {
         first: params.first,
+        after: params.after,
       })
-
-      console.log(JSON.stringify(data, null, 2))
 
       return data
     } catch (err) {

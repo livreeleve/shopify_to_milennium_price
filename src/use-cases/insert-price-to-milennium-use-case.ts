@@ -9,53 +9,87 @@ interface InserPriceMilenniumUseCaseRequest {
   query?: string
 }
 
+interface InsertPriceMilenniumUseCaseResponse {
+  message: string
+}
+
 export class InsertPriceMilenniumUseCase {
   constructor(
     private shopifyService: ShopifyServices,
     private prismaService: PrismaServices,
   ) {}
 
-  async execute(params: InserPriceMilenniumUseCaseRequest) {
-    const productsData = await this.shopifyService.getProducts(params)
-    const products = productsData?.products.edges.map((product) => product.node)
+  async execute(
+    params: InserPriceMilenniumUseCaseRequest,
+  ): Promise<InsertPriceMilenniumUseCaseResponse> {
+    const savedPageInfo = await this.prismaService.getPageInfo()
 
-    const productsFiltered =
-      productsData?.products?.edges?.map((item: any) => item.node) ?? []
+    let hasNextPage = true
+    let afterCursor: string | undefined = savedPageInfo?.hasNextPage
+      ? savedPageInfo.endCursor
+      : undefined
 
-    await this.prismaService.createManyProduct(productsFiltered)
+    while (hasNextPage) {
+      const productsData = await this.shopifyService.getProducts({
+        first: params.first,
+        after: params.after ? params.after : afterCursor,
+      })
 
-    products?.map(async (product) => {
-      const params = {
-        first: 50,
-        query: `product_id:${product.legacyResourceId}`,
-      }
-      const getVariants = await this.shopifyService.getVariants(params)
-
-      const variants = getVariants?.productVariants.edges.flatMap(
-        ({ node: variantNode }) => ({
-          legacyResourceId: variantNode.legacyResourceId,
-          title: variantNode.title,
-          displayName: variantNode.displayName,
-          price: variantNode.price,
-          compareAtPrice: variantNode.compareAtPrice,
-          barcode: variantNode.barcode ?? null,
-          sku: variantNode.sku,
-          createdAt: variantNode.createdAt,
-          updatedAt: variantNode.updatedAt,
-          productId: product.legacyResourceId,
-        }),
+      const products = productsData?.products.edges.map(
+        (product) => product.node,
       )
+      console.log('proxima página', afterCursor)
 
-      if (variants && variants.length > 0)
-        return await this.prismaService.createManyVariant(variants)
-    })
+      const productsFiltered =
+        productsData?.products?.edges?.map((item: any) => item.node) ?? []
 
-    const pageInfo = productsData?.products?.pageInfo
+      if (productsFiltered.length > 0) {
+        await this.prismaService.createManyProduct(productsFiltered)
+      }
 
-    const lastPageInfo = await this.prismaService.upsertPageInfo(pageInfo!)
+      if (products && products.length > 0) {
+        await Promise.all(
+          products.map(async (product) => {
+            const variantsResponse = await this.shopifyService.getVariants({
+              first: 50,
+              query: `product_id:${product.legacyResourceId}`,
+            })
 
-    console.log(JSON.stringify(lastPageInfo, null, 2))
+            const variants =
+              variantsResponse?.productVariants.edges.flatMap(
+                ({ node: variantNode }) => ({
+                  legacyResourceId: variantNode.legacyResourceId,
+                  title: variantNode.title,
+                  displayName: variantNode.displayName,
+                  price: variantNode.price,
+                  compareAtPrice: variantNode.compareAtPrice
+                    ? variantNode.compareAtPrice
+                    : variantNode.price,
+                  barcode: variantNode.barcode ?? null,
+                  sku: variantNode.sku ? variantNode.sku : '',
+                  createdAt: variantNode.createdAt,
+                  updatedAt: variantNode.updatedAt,
+                  productId: product.legacyResourceId,
+                }),
+              ) ?? []
 
-    console.log(JSON.stringify(products, null, 2), 'o resultado do response')
+            if (variants.length > 0) {
+              await this.prismaService.createManyVariant(variants)
+            }
+          }),
+        )
+      }
+
+      const pageInfo = productsData?.products?.pageInfo
+
+      await this.prismaService.upsertPageInfo(pageInfo!)
+
+      hasNextPage = pageInfo?.hasNextPage ?? false
+      afterCursor = pageInfo?.endCursor
+    }
+
+    return {
+      message: 'Importação de produto finalizada com sucesso!',
+    }
   }
 }

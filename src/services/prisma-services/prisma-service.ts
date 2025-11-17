@@ -45,5 +45,13 @@ export class PrismaService implements PrismaServices {
     return variants
   }
 
-  async getPageInfo(): Promise<PageInfo | null> {}
+  async getPageInfo(): Promise<PageInfo | null> {
+    const pageInfo = await prisma.pageInfo.findUnique({
+      where: {
+        key: 'shopifyPageInfo',
+      },
+    })
+
+    return pageInfo
+  }
 }
