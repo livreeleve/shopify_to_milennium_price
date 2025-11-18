@@ -8,6 +8,7 @@ export const milenniumAPI = axios.create({
     'Content-Type': 'application/json',
     Accept: 'application/json',
     Authorization: `Basic ${Buffer.from(`${env.MILENNIUM_USER_NAME}:${env.MILENNIUM_PASSWORD}`).toString('base64')}`,
+    'WTS-licencetype': 'api',
   },
   params: { $format: 'json' },
 })
