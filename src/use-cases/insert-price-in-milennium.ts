@@ -36,7 +36,7 @@ export class InsertPriceInMilenniumUseCase {
 
     // insertToMilenniumPrice.length
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < insertToMilenniumPrice.length; i++) {
       const { legacyId, ...payload } = insertToMilenniumPrice[i]
 
       if (i > 0) {
