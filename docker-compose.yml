@@ -1,0 +1,103 @@
+services:
+
+  integration-price-database:
+    image: bitnami/postgresql
+    ports:
+      - "5432:5432"
+    container_name: "integration-price-database"
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U docker -d integrationPrice"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 2
+      start_period: 30s
+    volumes:
+      - integration_price_data:/bitnami/postgresql
+    networks:
+      - lel-app
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "2"
+
+  integration-price-migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile.migrate
+    container_name: "integration-price-migrate"
+    volumes:
+      - .:/usr/app
+    env_file:
+      - .env
+    depends_on:
+      integration-price-database:
+          condition: service_healthy
+    networks:
+      - lel-app
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "2"
+  
+  integration-price-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env 
+    container_name: integration-price-server
+    restart: unless-stopped
+    ports:
+      - "3346:3333"
+    depends_on:
+      - integration-price-database
+      - integration-price-migrate
+    networks:
+      - lel-app
+    healthcheck:
+      test: ["CMD", "pgrep", "node"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 2
+      start_period: 30s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "2"
+    
+  integration-price-studio:
+    build:
+      context: .
+      dockerfile: Dockerfile.studio
+    container_name: integration-price-studio
+    restart: unless-stopped
+    volumes:
+      - .:/usr/app
+    ports:
+      - "5569:5555"
+    env_file:
+      - .env
+    depends_on:
+      - integration-price-database
+      - integration-price-migrate
+    networks:
+      - lel-app
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "2"
+
+
+networks:
+  lel-app:
+    external: true
+
+volumes:
+  integration_price_data:
+
