@@ -3,7 +3,7 @@ services:
   integration-price-database:
     image: bitnami/postgresql
     ports:
-      - "5432:5432"
+      - "5443:5432"
     container_name: "integration-price-database"
     env_file:
       - .env

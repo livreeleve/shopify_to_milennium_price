@@ -62,6 +62,7 @@ export class PrismaService implements PrismaServices {
 
   async findProductsWithValidVariants(): Promise<FindProductsWithValidVariantsTypes | null> {
     const where: ProductWhereInput = {
+      isChangePrice: false,
       variants: {
         some: {
           sku: { not: '' },
@@ -79,5 +80,18 @@ export class PrismaService implements PrismaServices {
       products,
       count,
     }
+  }
+
+  async updateProduct(id: string, isChangePrice: boolean): Promise<any> {
+    const product = await prisma.product.update({
+      where: {
+        legacyResourceId: id,
+      },
+      data: {
+        isChangePrice,
+      },
+    })
+
+    return product
   }
 }

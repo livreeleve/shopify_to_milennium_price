@@ -9,8 +9,8 @@
  * 🟢 You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/library"
-import type * as $Enums from "../enums.js"
-import type * as Prisma from "../internal/prismaNamespace.js"
+import type * as $Enums from "../enums"
+import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model Product
@@ -29,6 +29,7 @@ export type ProductMinAggregateOutputType = {
   title: string | null
   legacyResourceId: string | null
   status: string | null
+  isChangePrice: boolean | null
   variantsId: string | null
 }
 
@@ -37,6 +38,7 @@ export type ProductMaxAggregateOutputType = {
   title: string | null
   legacyResourceId: string | null
   status: string | null
+  isChangePrice: boolean | null
   variantsId: string | null
 }
 
@@ -46,6 +48,7 @@ export type ProductCountAggregateOutputType = {
   legacyResourceId: number
   tags: number
   status: number
+  isChangePrice: number
   variantsId: number
   _all: number
 }
@@ -56,6 +59,7 @@ export type ProductMinAggregateInputType = {
   title?: true
   legacyResourceId?: true
   status?: true
+  isChangePrice?: true
   variantsId?: true
 }
 
@@ -64,6 +68,7 @@ export type ProductMaxAggregateInputType = {
   title?: true
   legacyResourceId?: true
   status?: true
+  isChangePrice?: true
   variantsId?: true
 }
 
@@ -73,6 +78,7 @@ export type ProductCountAggregateInputType = {
   legacyResourceId?: true
   tags?: true
   status?: true
+  isChangePrice?: true
   variantsId?: true
   _all?: true
 }
@@ -155,6 +161,7 @@ export type ProductGroupByOutputType = {
   legacyResourceId: string
   tags: string[]
   status: string | null
+  isChangePrice: boolean
   variantsId: string | null
   _count: ProductCountAggregateOutputType | null
   _min: ProductMinAggregateOutputType | null
@@ -185,6 +192,7 @@ export type ProductWhereInput = {
   legacyResourceId?: Prisma.StringFilter<"Product"> | string
   tags?: Prisma.StringNullableListFilter<"Product">
   status?: Prisma.StringNullableFilter<"Product"> | string | null
+  isChangePrice?: Prisma.BoolFilter<"Product"> | boolean
   variantsId?: Prisma.StringNullableFilter<"Product"> | string | null
   variants?: Prisma.VariantsListRelationFilter
 }
@@ -195,6 +203,7 @@ export type ProductOrderByWithRelationInput = {
   legacyResourceId?: Prisma.SortOrder
   tags?: Prisma.SortOrder
   status?: Prisma.SortOrderInput | Prisma.SortOrder
+  isChangePrice?: Prisma.SortOrder
   variantsId?: Prisma.SortOrderInput | Prisma.SortOrder
   variants?: Prisma.VariantsOrderByRelationAggregateInput
 }
@@ -208,6 +217,7 @@ export type ProductWhereUniqueInput = Prisma.AtLeast<{
   title?: Prisma.StringFilter<"Product"> | string
   tags?: Prisma.StringNullableListFilter<"Product">
   status?: Prisma.StringNullableFilter<"Product"> | string | null
+  isChangePrice?: Prisma.BoolFilter<"Product"> | boolean
   variantsId?: Prisma.StringNullableFilter<"Product"> | string | null
   variants?: Prisma.VariantsListRelationFilter
 }, "id" | "legacyResourceId">
@@ -218,6 +228,7 @@ export type ProductOrderByWithAggregationInput = {
   legacyResourceId?: Prisma.SortOrder
   tags?: Prisma.SortOrder
   status?: Prisma.SortOrderInput | Prisma.SortOrder
+  isChangePrice?: Prisma.SortOrder
   variantsId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ProductCountOrderByAggregateInput
   _max?: Prisma.ProductMaxOrderByAggregateInput
@@ -233,6 +244,7 @@ export type ProductScalarWhereWithAggregatesInput = {
   legacyResourceId?: Prisma.StringWithAggregatesFilter<"Product"> | string
   tags?: Prisma.StringNullableListFilter<"Product">
   status?: Prisma.StringNullableWithAggregatesFilter<"Product"> | string | null
+  isChangePrice?: Prisma.BoolWithAggregatesFilter<"Product"> | boolean
   variantsId?: Prisma.StringNullableWithAggregatesFilter<"Product"> | string | null
 }
 
@@ -242,6 +254,7 @@ export type ProductCreateInput = {
   legacyResourceId: string
   tags?: Prisma.ProductCreatetagsInput | string[]
   status?: string | null
+  isChangePrice?: boolean
   variantsId?: string | null
   variants?: Prisma.VariantsCreateNestedManyWithoutProductInput
 }
@@ -252,6 +265,7 @@ export type ProductUncheckedCreateInput = {
   legacyResourceId: string
   tags?: Prisma.ProductCreatetagsInput | string[]
   status?: string | null
+  isChangePrice?: boolean
   variantsId?: string | null
   variants?: Prisma.VariantsUncheckedCreateNestedManyWithoutProductInput
 }
@@ -262,6 +276,7 @@ export type ProductUpdateInput = {
   legacyResourceId?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.ProductUpdatetagsInput | string[]
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isChangePrice?: Prisma.BoolFieldUpdateOperationsInput | boolean
   variantsId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variants?: Prisma.VariantsUpdateManyWithoutProductNestedInput
 }
@@ -272,6 +287,7 @@ export type ProductUncheckedUpdateInput = {
   legacyResourceId?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.ProductUpdatetagsInput | string[]
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isChangePrice?: Prisma.BoolFieldUpdateOperationsInput | boolean
   variantsId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   variants?: Prisma.VariantsUncheckedUpdateManyWithoutProductNestedInput
 }
@@ -282,6 +298,7 @@ export type ProductCreateManyInput = {
   legacyResourceId: string
   tags?: Prisma.ProductCreatetagsInput | string[]
   status?: string | null
+  isChangePrice?: boolean
   variantsId?: string | null
 }
 
@@ -291,6 +308,7 @@ export type ProductUpdateManyMutationInput = {
   legacyResourceId?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.ProductUpdatetagsInput | string[]
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isChangePrice?: Prisma.BoolFieldUpdateOperationsInput | boolean
   variantsId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -300,6 +318,7 @@ export type ProductUncheckedUpdateManyInput = {
   legacyResourceId?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.ProductUpdatetagsInput | string[]
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isChangePrice?: Prisma.BoolFieldUpdateOperationsInput | boolean
   variantsId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -317,6 +336,7 @@ export type ProductCountOrderByAggregateInput = {
   legacyResourceId?: Prisma.SortOrder
   tags?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  isChangePrice?: Prisma.SortOrder
   variantsId?: Prisma.SortOrder
 }
 
@@ -325,6 +345,7 @@ export type ProductMaxOrderByAggregateInput = {
   title?: Prisma.SortOrder
   legacyResourceId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  isChangePrice?: Prisma.SortOrder
   variantsId?: Prisma.SortOrder
 }
 
@@ -333,6 +354,7 @@ export type ProductMinOrderByAggregateInput = {
   title?: Prisma.SortOrder
   legacyResourceId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  isChangePrice?: Prisma.SortOrder
   variantsId?: Prisma.SortOrder
 }
 
@@ -358,6 +380,10 @@ export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
 }
 
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
 export type ProductCreateNestedOneWithoutVariantsInput = {
   create?: Prisma.XOR<Prisma.ProductCreateWithoutVariantsInput, Prisma.ProductUncheckedCreateWithoutVariantsInput>
   connectOrCreate?: Prisma.ProductCreateOrConnectWithoutVariantsInput
@@ -378,6 +404,7 @@ export type ProductCreateWithoutVariantsInput = {
   legacyResourceId: string
   tags?: Prisma.ProductCreatetagsInput | string[]
   status?: string | null
+  isChangePrice?: boolean
   variantsId?: string | null
 }
 
@@ -387,6 +414,7 @@ export type ProductUncheckedCreateWithoutVariantsInput = {
   legacyResourceId: string
   tags?: Prisma.ProductCreatetagsInput | string[]
   status?: string | null
+  isChangePrice?: boolean
   variantsId?: string | null
 }
 
@@ -412,6 +440,7 @@ export type ProductUpdateWithoutVariantsInput = {
   legacyResourceId?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.ProductUpdatetagsInput | string[]
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isChangePrice?: Prisma.BoolFieldUpdateOperationsInput | boolean
   variantsId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -421,6 +450,7 @@ export type ProductUncheckedUpdateWithoutVariantsInput = {
   legacyResourceId?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.ProductUpdatetagsInput | string[]
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isChangePrice?: Prisma.BoolFieldUpdateOperationsInput | boolean
   variantsId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -461,6 +491,7 @@ export type ProductSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   legacyResourceId?: boolean
   tags?: boolean
   status?: boolean
+  isChangePrice?: boolean
   variantsId?: boolean
   variants?: boolean | Prisma.Product$variantsArgs<ExtArgs>
   _count?: boolean | Prisma.ProductCountOutputTypeDefaultArgs<ExtArgs>
@@ -472,6 +503,7 @@ export type ProductSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   legacyResourceId?: boolean
   tags?: boolean
   status?: boolean
+  isChangePrice?: boolean
   variantsId?: boolean
 }, ExtArgs["result"]["product"]>
 
@@ -481,6 +513,7 @@ export type ProductSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   legacyResourceId?: boolean
   tags?: boolean
   status?: boolean
+  isChangePrice?: boolean
   variantsId?: boolean
 }, ExtArgs["result"]["product"]>
 
@@ -490,10 +523,11 @@ export type ProductSelectScalar = {
   legacyResourceId?: boolean
   tags?: boolean
   status?: boolean
+  isChangePrice?: boolean
   variantsId?: boolean
 }
 
-export type ProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "legacyResourceId" | "tags" | "status" | "variantsId", ExtArgs["result"]["product"]>
+export type ProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "legacyResourceId" | "tags" | "status" | "isChangePrice" | "variantsId", ExtArgs["result"]["product"]>
 export type ProductInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   variants?: boolean | Prisma.Product$variantsArgs<ExtArgs>
   _count?: boolean | Prisma.ProductCountOutputTypeDefaultArgs<ExtArgs>
@@ -512,6 +546,7 @@ export type $ProductPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     legacyResourceId: string
     tags: string[]
     status: string | null
+    isChangePrice: boolean
     variantsId: string | null
   }, ExtArgs["result"]["product"]>
   composites: {}
@@ -942,6 +977,7 @@ export interface ProductFieldRefs {
   readonly legacyResourceId: Prisma.FieldRef<"Product", 'String'>
   readonly tags: Prisma.FieldRef<"Product", 'String[]'>
   readonly status: Prisma.FieldRef<"Product", 'String'>
+  readonly isChangePrice: Prisma.FieldRef<"Product", 'Boolean'>
   readonly variantsId: Prisma.FieldRef<"Product", 'String'>
 }
     

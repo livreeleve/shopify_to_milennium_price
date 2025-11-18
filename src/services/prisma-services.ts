@@ -8,7 +8,9 @@ import {
   VariantsCreateManyInput,
 } from '@/generated/prisma/models'
 
-type ProductWithVariants = ProductGetPayload<{ include: { variants: true } }>
+export type ProductWithVariants = ProductGetPayload<{
+  include: { variants: true }
+}>
 
 export interface FindProductsWithValidVariantsTypes {
   products: ProductWithVariants[]
@@ -21,4 +23,8 @@ export interface PrismaServices {
   createManyVariant(data: VariantsCreateManyInput[]): Promise<BatchPayload>
   getPageInfo(): Promise<PageInfo | null>
   findProductsWithValidVariants(): Promise<FindProductsWithValidVariantsTypes | null>
+  updateProduct(
+    id: string,
+    isChangePrice: boolean,
+  ): Promise<ProductWithVariants | null>
 }

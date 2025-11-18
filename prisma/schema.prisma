@@ -21,6 +21,7 @@ model Product {
   legacyResourceId String   @unique @map("legacy_resource_id")
   tags             String[]
   status           String?
+  isChangePrice    Boolean  @default(false) @map("is_change_price")
   variantsId       String?  @map("variants_id")
 
   variants Variants[]
